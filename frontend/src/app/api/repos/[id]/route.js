@@ -1,7 +1,7 @@
 import { connectDB } from '@/lib/db'
 import Repo from '@/models/repo'
 
-export const dynamic = 'force-dynamic'
+// export const dynamic = 'force-dynamic'
 
 export async function GET (_req, { params }) {
   const { id } = await params
