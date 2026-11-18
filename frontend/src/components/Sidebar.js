@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CodeXml, Plus } from "lucide-react";
@@ -50,7 +51,15 @@ export default function Sidebar({ onNavigate }) {
         <span className="text-xs tabular-nums text-zinc-600">{repos.length}</span>
       </div>
       <Separator className="mb-2 bg-zinc-800" />
-      <RepoList repos={repos} onNavigate={onNavigate} />
+      <Suspense
+        fallback={
+          <p className="px-2 py-4 text-xs leading-relaxed text-zinc-500">
+            Loading repositories...
+          </p>
+        }
+      >
+        <RepoList repos={repos} onNavigate={onNavigate} />
+      </Suspense>
 
       <div className="mt-auto border-t border-zinc-800/80 px-2 pt-4 text-xs leading-relaxed text-zinc-600">
         Ask questions. Find answers in code.

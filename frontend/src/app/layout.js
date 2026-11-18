@@ -15,10 +15,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata = {
-  title: "CodeLens — Understand any codebase",
-  description: "Chat with the code in any public GitHub repository.",
-};
+// export const metadata = {
+//   title: "CodeLens — Understand any codebase",
+//   description: "Chat with the code in any public GitHub repository.",
+// };
 
 export default function RootLayout({ children }) {
   return (
