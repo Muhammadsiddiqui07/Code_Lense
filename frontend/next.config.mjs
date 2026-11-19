@@ -3,14 +3,15 @@ const nextConfig = {
   /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
+  output: 'standalone',
   turbopack: {
     rules: {
-      "*.css": {
-        loaders: ["@tailwindcss/turbopack"],
-        as: "*.css",
-      },
-    },
-  },
-};
+      '*.css': {
+        loaders: ['@tailwindcss/turbopack'],
+        as: '*.css'
+      }
+    }
+  }
+}
 
-export default nextConfig;
+export default nextConfig

@@ -1,0 +1,34 @@
+services:
+  # ---------- Python RAG service (FastAPI + Chroma + Groq) ----------
+  python:
+    build: ./python-services
+    env_file:
+      - ./python-services/.env          # GROQ_API_KEY, GROQ_MODEL
+    volumes:
+      - chroma_data:/app/chroma_db      # keeps vector data after restarts
+    restart: unless-stopped
+    # No "ports" on purpose: only the frontend container needs to reach it.
+    # For testing /docs from your browser, temporarily add:  ports: ["8000:8000"]
+    healthcheck:
+      # python:slim has no curl, so use Python itself to call /health
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  # ---------- Next.js frontend + API ----------
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      PYTHON_URL: http://python:8000    # service name = hostname inside compose
+      MONGO_URI: ${MONGO_URI}           # read from the .env file next to this file
+    depends_on:
+      python:
+        condition: service_healthy      # start frontend only after python is healthy
+    restart: unless-stopped
+
+volumes:
+  chroma_data:
